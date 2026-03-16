@@ -24,7 +24,25 @@ const routes = [
   },
 ];
 
-const router = createRouter({ history: createWebHistory(), routes });
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    // If a saved position is available (e.g., from using the back button),
+    // return to it for a better user experience on history navigation.
+    if (savedPosition) {
+      return savedPosition;
+    }
+
+    // Otherwise, scroll to the top of the page for new route changes.
+    // Use 'smooth' behavior for an animated scroll, or 'auto' for an instant jump.
+    return {
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    };
+  },
+});
 
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();

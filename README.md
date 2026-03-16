@@ -1,5 +1,28 @@
-# Vue 3 + Vite
+# Vue Product Hub
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Full-featured product management app with real JWT auth, built with Vue 3 + Vite.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Features
+- User Registration & Login (real JWT from Platzi API)
+- Token caching with Pinia + localStorage
+- Responsive product grid
+- Search by title + Category filter
+- Pagination
+- Product details page
+- Loading & error states
+- Tailwind CSS + Pinia + Vue Router
+
+## Tech Stack
+- Vue 3 (Composition API)
+- Pinia (state management + persistence)
+- Vue Router
+- Tailwind CSS
+- Axios
+- Vitest + Vue Test Utils (unit tests)
+
+## Setup
+```bash
+npm install
+npm run dev
+```
+### developed by : Ahmed Reda

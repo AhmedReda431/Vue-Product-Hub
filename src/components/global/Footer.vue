@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Left -->
-        <div>
+        <router-link to="/">
           <div class="flex items-center gap-3 mb-4">
             <div
               class="w-8 h-8 bg-white rounded-2xl flex items-center justify-center"
@@ -15,7 +15,7 @@
           <p class="text-sm">
             A modern product management app built with Vue 3
           </p>
-        </div>
+        </router-link>
 
         <!-- Center -->
         <div class="text-center md:text-left">

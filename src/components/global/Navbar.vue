@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-        <div class="flex items-center gap-3">
+        <router-link to="/" class="flex items-center gap-3">
           <div
             class="w-9 h-9 bg-gray-900 rounded-2xl flex items-center justify-center"
           >
@@ -14,7 +14,7 @@
               >ProductHub</span
             >
           </div>
-        </div>
+        </router-link>
 
         <!-- Right Side -->
         <div class="flex items-center gap-4">

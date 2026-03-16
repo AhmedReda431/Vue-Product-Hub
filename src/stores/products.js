@@ -1,9 +1,10 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
+import { defineStore } from "pinia";
+import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://api.escuelajs.co/api/v1'
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "https://api.escuelajs.co/api/v1";
 
-export const useProductsStore = defineStore('products', {
+export const useProductsStore = defineStore("products", {
   state: () => ({
     products: [],
     categories: [],
@@ -12,67 +13,67 @@ export const useProductsStore = defineStore('products', {
     itemsPerPage: 12,
     loading: false,
     error: null,
-    currentSearchTerm: '',
-    currentCategoryId: ''
+    currentSearchTerm: "",
+    currentCategoryId: "",
   }),
 
   actions: {
     async fetchProducts() {
-      this.loading = true
-      this.error = null
+      this.loading = true;
+      this.error = null;
 
       try {
         // Minimum loading time for better UX (spinner will show at least 800ms)
         const [res] = await Promise.all([
           axios.get(`${API_BASE}/products?limit=200`),
-          new Promise(resolve => setTimeout(resolve, 800)) // ← This is the fix
-        ])
+          new Promise((resolve) => setTimeout(resolve, 800)), // ← This is the fix
+        ]);
 
-        this.products = res.data
-        this.filteredProducts = [...res.data]
+        this.products = res.data;
+        this.filteredProducts = [...res.data];
       } catch (e) {
-        this.error = 'Failed to load products. Please refresh the page.'
-        console.error(e)
+        this.error = "Failed to load products. Please refresh the page.";
+        console.error(e);
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
 
     async fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE}/categories`)
-        this.categories = res.data
+        const { data } = await axios.get(`${API_BASE}/categories`);
+        const validName = /^[a-zA-Z0-9\s]+$/;
+
+        this.categories = data.filter(({ name }) => validName.test(name));
       } catch (e) {
-        console.error('Failed to load categories', e)
+        console.error("Failed to load categories", e);
       }
     },
 
-    searchAndFilter(searchTerm = '', categoryId = '') {
-      this.currentSearchTerm = searchTerm
-      this.currentCategoryId = categoryId
+    searchAndFilter(searchTerm = "", categoryId = "") {
+      this.currentSearchTerm = searchTerm;
+      this.currentCategoryId = categoryId;
 
-      let result = [...this.products]
+      let result = [...this.products];
 
       if (searchTerm && searchTerm.trim()) {
-        const term = searchTerm.toLowerCase().trim()
-        result = result.filter(p => 
-          p.title.toLowerCase().includes(term)
-        )
+        const term = searchTerm.toLowerCase().trim();
+        result = result.filter((p) => p.title.toLowerCase().includes(term));
       }
 
       if (categoryId) {
-        result = result.filter(p => 
-          p.category && p.category.id === Number(categoryId)
-        )
+        result = result.filter(
+          (p) => p.category && p.category.id === Number(categoryId),
+        );
       }
 
-      this.filteredProducts = result
-      this.currentPage = 1
+      this.filteredProducts = result;
+      this.currentPage = 1;
     },
 
     getPaginatedProducts() {
-      const start = (this.currentPage - 1) * this.itemsPerPage
-      return this.filteredProducts.slice(start, start + this.itemsPerPage)
-    }
-  }
-})
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.filteredProducts.slice(start, start + this.itemsPerPage);
+    },
+  },
+});
